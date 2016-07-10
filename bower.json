@@ -5,7 +5,8 @@
     "app-route": "PolymerElements/app-route#^0.9.1",
     "iron-elements": "PolymerElements/iron-elements#^1.0.0",
     "paper-elements": "PolymerElements/paper-elements#^1.0.0",
-    "polymer": "Polymer/polymer#^1.0.0"
+    "polymer": "Polymer/polymer#^1.0.0",
+    "polymerfire": "firebase/polymerfire#^0.9.4"
   },
   "private": true
 }

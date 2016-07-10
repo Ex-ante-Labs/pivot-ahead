@@ -27,6 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 
 <link rel="import" href="app-icons.html">
 <link rel="import" href="psk-page-about.html">
@@ -34,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="pa-page-home.html">
 <link rel="import" href="pa-page-list.html">
 <link rel="import" href="pa-page-detail.html">
-<link rel="import" href="pa-page-analytics.html">
+<!-- <link rel="import" href="pa-page-analytics.html"> -->
 
 <dom-module id="psk-app">
   <template>
@@ -112,6 +113,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: none;
       }
     </style>
+
+    <!-- Configure Firebase app: -->
+    <firebase-app
+      api-key="AIzaSyD529CQT8lwBGb6WWQWi2Y6JQHQmHstVIs"
+      auth-domain="pivotahead.firebaseapp.com"
+      database-url="https://pivotahead.firebaseio.com">
+    </firebase-app>
 
     <!-- setup routes -->
     <app-location route="{{route}}"></app-location>
