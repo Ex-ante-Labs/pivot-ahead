@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="pa-list-item.html">
+
+<dom-module id="pa-page-list">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <firebase-query
+        path="/list"
+        data="{{data}}">
+    </firebase-query>
+
+    <h2 class="page-title">Market</h2>
+
+    <template is="dom-repeat" items="[[data]]" as="item">
+      <pa-list-item item="[[item]]"></pa-list-item>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'pa-page-list'
+    });
+  </script>
+</dom-module>

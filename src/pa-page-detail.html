@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+
+<dom-module id="pa-page-detail">
+  <template>
+    <app-route route="[[route]]" pattern="/:id" data="{{routeData}}"></app-route>
+
+    <firebase-document
+        path="/list/[[routeData.id]]"
+        data="{{data}}">
+    </firebase-document>
+
+    <firebase-query
+        path="/properties"
+        data="{{props}}">
+    </firebase-query>
+
+    <h2 class="page-title">Loan "[[routeData.id]]" &ndash; [[data.type]]</h2>
+
+    <template is="dom-repeat" items="[[props]]" as="property">
+      <paper-item>
+        <paper-item-body two-line>
+          <div>[[_getValue(data, property)]]</div>
+          <div secondary>[[property.name]]</div>
+        </paper-item-body>
+      </paper-item>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'pa-page-detail',
+      properties: {
+        route: Object
+      },
+
+      _getValue: function (data, property) {
+        return data[property.$key]
+      }
+    });
+  </script>
+</dom-module>

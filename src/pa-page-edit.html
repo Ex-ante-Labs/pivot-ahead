@@ -1,0 +1,43 @@
+
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+
+<dom-module id="pa-page-edit">
+  <template>
+    <app-route route="[[route]]" pattern="/:id" data="{{routeData}}"></app-route>
+
+    <firebase-document
+        path="/list/[[routeData.id]]"
+        data="{{data}}">
+    </firebase-document>
+
+    <firebase-query
+        path="/originators"
+        data="{{originators}}">
+    </firebase-query>
+
+    <h2 class="page-title">Loan "[[routeData.id]]" &ndash; [[data.type]]</h2>
+    <paper-input label="name" value="{{data.name}}">[[data.name]]</paper-input>
+    <paper-dropdown-menu label="Loan Originator">
+      <paper-listbox class="dropdown-content" attr-for-selected="option-id" selected="{{data.originator}}">
+        <template is="dom-repeat" items="[[originators]]" as="originator">
+          <paper-item option-id="[[originator.$key]]">[[originator.name]]</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+  </template>
+  <script>
+    Polymer({
+      is: 'pa-page-edit',
+      properties: {
+        route: Object
+      }
+    });
+  </script>
+</dom-module>
