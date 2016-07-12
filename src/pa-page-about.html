@@ -1,19 +1,20 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
+<link rel="import" href="shared-styles.html">
 
-<link rel="import" href="../bower_components/iron-image/iron-image.html">
-
-<dom-module id="pa-page-analytics">
+<dom-module id="pa-page-about">
   <template>
     <style include="shared-styles">
+      :host {
+        display: block;
+      }
     </style>
-    
-    <iron-image
-      src="http://www.liftphd.com/wp-content/uploads/2016/02/marketing-analytics.png"
-    ></iron-image>
+
+    <sample-content size="100"></sample-content>
   </template>
   <script>
     Polymer({
-      is: 'pa-page-analytics',
+      is: 'pa-page-about',
       properties: {
         title: {
           type: String,

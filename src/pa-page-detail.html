@@ -16,14 +16,14 @@
       paper-fab {
           position: fixed;
           right: 24px;
-          bottom: 32px;          
+          bottom: 32px;
       }
     </style>
 
     <app-route route="[[route]]" pattern="/:id" data="{{routeData}}"></app-route>
 
     <firebase-document
-        path="/list/[[routeData.id]]"
+        path=[[_path(routeData.id)]]
         data="{{data}}">
     </firebase-document>
 
@@ -32,12 +32,10 @@
         data="{{props}}">
     </firebase-query>
 
-    <h2 class="page-title">Loan "[[routeData.id]]" &ndash; [[data.type]]</h2>
-
     <template is="dom-repeat" items="[[props]]" as="property">
       <paper-item>
         <paper-item-body two-line>
-          <div>[[_getValue(data, property)]]</div>
+          <div>[[_getValue(data, property.$key)]]</div>
           <div secondary>[[property.name]]</div>
         </paper-item-body>
       </paper-item>
@@ -65,12 +63,16 @@
         route: Object
       },
 
-      _getValue: function (data, property) {
-        return data[property.$key]
+      _getValue: function (data, key) {
+        return data[key]
       },
 
       _title: function (id, type) {
         return 'Loan "' + id + '" – ' + type
+      },
+
+      _path: function (id) {
+        return "/list/" + id
       }
     });
   </script>

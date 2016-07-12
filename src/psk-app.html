@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 
 <link rel="import" href="app-icons.html">
-<link rel="import" href="psk-page-about.html">
+<link rel="import" href="pa-page-about.html">
 <link rel="import" href="psk-page-404.html">
 <link rel="import" href="pa-page-home.html">
 <link rel="import" href="pa-page-list.html">
@@ -41,7 +41,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       :host {
-        --app-primary-color:  var(--paper-grey-800);
+        --app-primary-color:  var(--paper-blue-500);
+        --app-primary-color-light:  var(--paper-blue-100);
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
         display: block;
@@ -51,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       app-drawer {
         --app-drawer-content-container: {
-          background-color: var(--app-primary-color);
+          color: var(--app-primary-color);
           overflow-x: hidden;
         };
       }
@@ -68,8 +69,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .main-header {
         border-bottom: 1px solid #ddd;
-        background-color: #fff;
-        color: #444;
+        background-color: var(--app-primary-color);
+        color: #fff;
       }
 
       [title] {
@@ -79,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       iron-selector {
         background-color: var(--app-primary-color);
-        color: #fff;
+        color: #000;
       }
 
       iron-selector > a {
@@ -90,7 +91,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       iron-selector > a.iron-selected {
-        background-color: var(--paper-grey-600);
+        color: var(--app-primary-color);
+        background-color: var(--app-primary-color-light);
+      }
+
+      iron-pages a {
+        color: var(--app-primary-color);
+      }
       }
 
       iron-pages a {
@@ -111,6 +118,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       :host([page=detail]) .menu-btn {
         display: none;
+      }
+
+      .back-btn {
+        color: #fff;
       }
     </style>
 
@@ -176,7 +187,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <pa-page-detail data-page="detail" on-title-changed="_updateTitle"
           route="[[subroute]]"></pa-page-detail>
         <pa-page-analytics data-page="analytics" on-title-changed="_updateTitle"></pa-page-analytics>
-        <psk-page-about data-page="about" on-title-changed="_updateTitle"></psk-page-about>
+        <pa-page-about data-page="about" on-title-changed="_updateTitle"></pa-page-about>
         <psk-page-404 data-page="404" on-title-changed="_updateTitle"></psk-page-404>
       </iron-pages>
     </app-drawer-layout>
