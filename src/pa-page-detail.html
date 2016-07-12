@@ -57,11 +57,20 @@
     Polymer({
       is: 'pa-page-detail',
       properties: {
+        title: {
+          type: String,
+          computed: '_title(routeData.id, data.type)',
+          notify: true
+        },
         route: Object
       },
 
       _getValue: function (data, property) {
         return data[property.$key]
+      },
+
+      _title: function (id, type) {
+        return 'Loan "' + id + '" – ' + type
       }
     });
   </script>

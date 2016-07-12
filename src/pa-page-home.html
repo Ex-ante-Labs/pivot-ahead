@@ -9,7 +9,6 @@
       }
     </style>
 
-    <h2 class="page-title">Home</h2>
     <ul>
       <li><a data-page="list" href="/list"><h1>Where to invest?</h1></a></li>
       <li><a data-page="analytics" href="/analytics"><h1>Analytics</h1></a></li>
@@ -17,7 +16,13 @@
   </template>
   <script>
     Polymer({
-      is: 'pa-page-home'
+      is: 'pa-page-home',
+      properties: {
+        title: {
+          value: 'Home',
+          notify: true
+        }
+      }
     });
   </script>
 </dom-module>

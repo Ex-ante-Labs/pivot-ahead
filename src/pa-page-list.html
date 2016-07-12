@@ -16,15 +16,19 @@
         data="{{data}}">
     </firebase-query>
 
-    <h2 class="page-title">Market</h2>
-
     <template is="dom-repeat" items="[[data]]" as="item">
       <pa-list-item item="[[item]]"></pa-list-item>
     </template>
   </template>
   <script>
     Polymer({
-      is: 'pa-page-list'
+      is: 'pa-page-list',
+      properties: {
+        title: {
+          value: 'Market',
+          notify: true
+        }
+      }
     });
   </script>
 </dom-module>

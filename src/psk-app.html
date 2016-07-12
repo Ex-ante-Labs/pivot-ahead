@@ -163,19 +163,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </paper-icon-button>
                 </a>
             </div>
-            <h1 title>Pivot Ahead</h1>
+            <h1 title>[[selectedPage.title]]</h1>
           </app-toolbar>
         </app-header>
       </app-header-layout>
 
       <!-- main menu -->
-      <iron-pages selected="[[pageData.page]]" attr-for-selected="data-page" fallback-selection="404">
-        <pa-page-home data-page=""></pa-page-home>
-        <pa-page-list data-page="list"></pa-page-list>
-        <pa-page-detail data-page="detail" route="[[subroute]]"></pa-page-detail>
-        <pa-page-analytics data-page="analytics"></pa-page-analytics>
-        <psk-page-about data-page="about"></psk-page-about>
-        <psk-page-404 data-page="404"></psk-page-404>
+      <iron-pages id="pages" selected="[[pageData.page]]" attr-for-selected="data-page"
+        fallback-selection="404" selected-item="{{selectedPage}}">
+        <pa-page-home data-page="" on-title-changed="_updateTitle"></pa-page-home>
+        <pa-page-list data-page="list" on-title-changed="_updateTitle"></pa-page-list>
+        <pa-page-detail data-page="detail" on-title-changed="_updateTitle"
+          route="[[subroute]]"></pa-page-detail>
+        <pa-page-analytics data-page="analytics" on-title-changed="_updateTitle"></pa-page-analytics>
+        <psk-page-about data-page="about" on-title-changed="_updateTitle"></psk-page-about>
+        <psk-page-404 data-page="404" on-title-changed="_updateTitle"></psk-page-404>
       </iron-pages>
     </app-drawer-layout>
   </template>
@@ -190,6 +192,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           reflectToAttribute: true
         },
+        title: String
       },
 
       observers: [
@@ -215,6 +218,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
         // Close the drawer - in case the *route* change came from a link in the drawer.
         this.drawerOpened = false;
+      },
+
+      _updateTitle: function(e,b) {
+        this.notifyPath('selectedPage.title');
       }
 
     });
