@@ -1,0 +1,120 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/paper-styles/color.html">
+
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+
+<link rel="import" href="app-icons.html">
+<link rel="import" href="pa-page-about.html">
+<link rel="import" href="pa-page-404.html">
+<link rel="import" href="pa-page-entities.html">
+<link rel="import" href="pa-page-list.html">
+<link rel="import" href="pa-page-detail.html">
+<link rel="import" href="pa-page-analytics.html">
+
+<dom-module id="pa-main-content">
+  <template>
+    <style include="shared-styles">
+
+      :host {
+        display: block;
+      }
+
+      .main-header {
+        border-bottom: 1px solid #ddd;
+        background-color: var(--app-primary-color);
+        color: #fff;
+      }
+
+      .back-btn {
+        color: #fff;
+      }
+
+      :host(:not([page=detail])) .back-btn {
+        display: none;
+      }
+
+      [main-title] {
+        font-size: 20px;
+        font-weight: normal;
+      }
+
+    </style>
+
+    <app-route route="{{route}}" pattern="/:tab" data="{{routeData}}"
+      tail="{{routeTail}}"></app-route>
+
+    <!-- main panel -->
+    <app-header-layout>
+      <app-header condenses reveals fixed effects="waterfall" class="main-header">
+        <app-toolbar>
+          <div class="left-bar-item">
+            <content></content>
+            <a class="back-btn" href="/list" tabindex="-1">
+              <paper-icon-button icon="app:arrow-back" aria-label="Go back"></paper-icon-button>
+            </a>
+          </div>
+          <h1 main-title>[[selectedPage.title]]</h1>
+        </app-toolbar>
+        <paper-tabs attr-for-selected="tab-id" selected="{{routeData.tab}}" sticky>
+          <paper-tab tab-id="overview">Overview</paper-tab>
+          <paper-tab tab-id="list">List</paper-tab>
+        </paper-tabs>
+      </app-header>
+    </app-header-layout>
+
+    <!-- main menu -->
+    <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
+      fallback-selection="404" selected-item="{{selectedPage}}">
+      <pa-page-entities data-page="entities" on-title-changed="_updateTitle"></pa-page-entities>
+      <pa-page-list data-page="list" on-title-changed="_updateTitle"></pa-page-list>
+      <pa-page-detail data-page="detail" on-title-changed="_updateTitle"
+        route="[[routeTail]]"></pa-page-detail>
+      <pa-page-analytics data-page="analytics" on-title-changed="_updateTitle"></pa-page-analytics>
+      <pa-page-about data-page="about" on-title-changed="_updateTitle"></pa-page-about>
+      <pa-page-404 data-page="404" on-title-changed="_updateTitle"></pa-page-404>
+    </iron-pages>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'pa-main-content',
+
+      properties: {
+        page: {
+          type: String,
+          reflectToAttribute: true
+        },
+        route: {
+          type: Object,
+          notify: true
+        },
+        title: String
+      },
+
+      _updateTitle: function(e,b) {
+        this.notifyPath('selectedPage.title');
+      }
+
+    });
+  </script>
+</dom-module>

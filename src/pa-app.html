@@ -32,14 +32,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 
 <link rel="import" href="app-icons.html">
-<link rel="import" href="pa-page-about.html">
-<link rel="import" href="psk-page-404.html">
-<link rel="import" href="pa-page-entities.html">
-<link rel="import" href="pa-page-list.html">
-<link rel="import" href="pa-page-detail.html">
-<link rel="import" href="pa-page-analytics.html">
+<link rel="import" href="pa-main-content.html">
 
-<dom-module id="psk-app">
+<dom-module id="pa-app">
   <template>
     <style>
       :host {
@@ -67,17 +62,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       app-drawer app-header {
         background-color: var(--app-primary-color);
-      }
-
-      .main-header {
-        border-bottom: 1px solid #ddd;
-        background-color: var(--app-primary-color);
-        color: #fff;
-      }
-
-      [title] {
-        font-size: 20px;
-        font-weight: normal;
       }
 
       iron-selector {
@@ -114,16 +98,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 40px;
       }
 
-      :host(:not([page=detail])) .back-btn {
+      :host([page=detail]) [drawer-toggle] {
         display: none;
-      }
-
-      :host([page=detail]) .menu-btn {
-        display: none;
-      }
-
-      .back-btn {
-        color: #fff;
       }
     </style>
 
@@ -136,10 +112,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- setup routes -->
     <app-location route="{{route}}"></app-location>
-    <app-route route="{{route}}" pattern="/:page" data="{{pageData}}"
-      tail="{{subroute}}"></app-route>
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"
+      tail="{{routeTail}}"></app-route>
 
-    <app-scrollpos-control selected="{{pageData.page}}"></app-scrollpos-control>
+    <app-scrollpos-control selected="{{routeData.page}}"></app-scrollpos-control>
 
     <app-drawer-layout drawer-width="288px" responsive-width="1280px">
 
@@ -155,9 +131,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-header>
 
           <!-- drawer menu -->
-          <iron-selector selected="[[pageData.page]]" attr-for-selected="data-page"
+          <iron-selector selected="[[page]]" attr-for-selected="data-page"
             on-iron-activate="_drawerSelected">
-            <a data-page="" href="/">Entities</a>
+            <a data-page="entities" href="/entities">Entities</a>
             <a data-page="list" href="/list">List</a>
             <a data-page="analytics" href="/analytics">Analytics</a>
             <a data-page="about" href="/about">About</a>
@@ -165,55 +141,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-header-layout>
       </app-drawer>
 
-      <!-- main panel -->
-      <app-header-layout>
-        <app-header condenses reveals fixed effects="waterfall" class="main-header">
-          <app-toolbar>
-            <div class="left-bar-item">
-                <paper-icon-button class="menu-btn" icon="app:menu" drawer-toggle></paper-icon-button>
-                <a class="back-btn" href="/list" tabindex="-1">
-                  <paper-icon-button icon="app:arrow-back" aria-label="Go back">
-                  </paper-icon-button>
-                </a>
-            </div>
-            <h1 title>[[selectedPage.title]]</h1>
-          </app-toolbar>
-          <paper-tabs selected="1" sticky>
-            <paper-tab>Overview</paper-tab>
-            <paper-tab>List</paper-tab>
-          </paper-tabs>
-        </app-header>
-      </app-header-layout>
+      <!-- main content -->
+      <pa-main-content page="[[page]]" route="{{routeTail}}">
+        <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+      </pa-main-content>
 
-      <!-- main menu -->
-      <iron-pages id="pages" selected="[[pageData.page]]" attr-for-selected="data-page"
-        fallback-selection="404" selected-item="{{selectedPage}}">
-        <pa-page-entities data-page="" on-title-changed="_updateTitle"></pa-page-entities>
-        <pa-page-list data-page="list" on-title-changed="_updateTitle"></pa-page-list>
-        <pa-page-detail data-page="detail" on-title-changed="_updateTitle"
-          route="[[subroute]]"></pa-page-detail>
-        <pa-page-analytics data-page="analytics" on-title-changed="_updateTitle"></pa-page-analytics>
-        <pa-page-about data-page="about" on-title-changed="_updateTitle"></pa-page-about>
-        <psk-page-404 data-page="404" on-title-changed="_updateTitle"></psk-page-404>
-      </iron-pages>
     </app-drawer-layout>
   </template>
 
   <script>
     Polymer({
 
-      is: 'psk-app',
+      is: 'pa-app',
 
       properties: {
         page: {
           type: String,
           reflectToAttribute: true
-        },
-        title: String
+        }
       },
 
       observers: [
-        '_routePageChanged(pageData.page)'
+        '_routePageChanged(routeData.page)'
       ],
 
       attached: function() {
@@ -230,15 +179,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _routePageChanged: function(page) {
         this.page = page || 'entities';
-        // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
-        // with `behavior: 'silent'` to disable header scroll effects during the scroll.
-        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
-        // Close the drawer - in case the *route* change came from a link in the drawer.
-        this.drawerOpened = false;
-      },
-
-      _updateTitle: function(e,b) {
-        this.notifyPath('selectedPage.title');
       }
 
     });
