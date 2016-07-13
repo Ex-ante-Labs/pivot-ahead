@@ -131,18 +131,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-header>
 
           <!-- drawer menu -->
-          <iron-selector selected="[[page]]" attr-for-selected="data-page"
+          <iron-selector selected="[[routeData.page]]" attr-for-selected="data-page"
             on-iron-activate="_drawerSelected">
-            <a data-page="entities" href="/entities">Entities</a>
-            <a data-page="list" href="/list">List</a>
-            <a data-page="analytics" href="/analytics">Analytics</a>
-            <a data-page="about" href="/about">About</a>
+            <a data-page="entities" href="/entities/list">Entities</a>
+            <a data-page="offers" href="/offers/list">Offers</a>
           </iron-selector>
         </app-header-layout>
       </app-drawer>
 
       <!-- main content -->
-      <pa-main-content page="[[page]]" route="{{routeTail}}">
+      <pa-main-content page="[[routeData.page]]" route="{{routeTail}}">
         <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
       </pa-main-content>
 
@@ -178,8 +176,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _routePageChanged: function(page) {
-        if (!page) { this.routeData.page = 'entities' }
-        this.page = this.routeData.page;
+        if (!page) { this.set('route.path', '/entities/list') }
+        this.page = page;
       }
 
     });

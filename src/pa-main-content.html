@@ -19,13 +19,13 @@
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="app-icons.html">
 <link rel="import" href="pa-page-about.html">
 <link rel="import" href="pa-page-404.html">
 <link rel="import" href="pa-page-entities.html">
-<link rel="import" href="pa-page-list.html">
+<link rel="import" href="pa-page-offers.html">
 <link rel="import" href="pa-page-detail.html">
 <link rel="import" href="pa-page-analytics.html">
 
@@ -61,6 +61,11 @@
     <app-route route="{{route}}" pattern="/:tab" data="{{routeData}}"
       tail="{{routeTail}}"></app-route>
 
+    <firebase-query
+        path="[[_path(page, routeData.tab)]]"
+        data="{{list}}">
+    </firebase-query>
+
     <!-- main panel -->
     <app-header-layout>
       <app-header condenses reveals fixed effects="waterfall" class="main-header">
@@ -84,19 +89,13 @@
     <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
       fallback-selection="404" selected-item="{{selectedPage}}">
 
-      <pa-page-entities data-page="entities" tab="[[routeData.tab]]" on-title-changed="_updateTitle">
-      </pa-page-entities>
+      <pa-page-entities data-page="entities" list="[[list]]"
+        on-title-changed="_updateTitle"></pa-page-entities>
 
-      <pa-page-list data-page="list" on-title-changed="_updateTitle"></pa-page-list>
+      <pa-page-offers data-page="offers" list="[[list]]"
+        on-title-changed="_updateTitle"></pa-page-offers>
 
-      <pa-page-detail data-page="detail" on-title-changed="_updateTitle"
-        route="[[routeTail]]"></pa-page-detail>
-
-      <pa-page-analytics data-page="analytics" on-title-changed="_updateTitle"></pa-page-analytics>
-
-      <pa-page-about data-page="about" on-title-changed="_updateTitle"></pa-page-about>
-
-      <pa-page-404 data-page="404" on-title-changed="_updateTitle"></pa-page-404>
+      <pa-page-404 data-page="404"></pa-page-404>
 
     </iron-pages>
 
@@ -119,8 +118,12 @@
         title: String
       },
 
-      _updateTitle: function(e,b) {
+      _updateTitle: function() {
         this.notifyPath('selectedPage.title');
+      },
+
+      _path: function(page, tab) {
+        return '/u/demo/' + page + '/' + tab
       }
 
     });
