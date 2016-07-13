@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="pa-list-item.html">
+
+<dom-module id="pa-page-resource">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <app-route route="{{route}}" pattern="/:key" data="{{routeData}}"
+      tail="{{routeTail}}"></app-route>
+
+    <app-route route="{{routeTail}}" pattern="/:tab" data="{{subrouteData}}">
+    </app-route>
+
+    <firebase-query
+        path="_path(routeData.key,subrouteData.key)"
+        data="{{data}}">
+    </firebase-query>
+
+    <template is="dom-repeat" items="[[data]]" as="item">
+      <pa-list-item item="[[item]]"></pa-list-item>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'pa-page-resource',
+      properties: {
+        route: {
+          type: Object,
+          notify: true
+        },
+        title: {
+          value: 'Resource',
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>

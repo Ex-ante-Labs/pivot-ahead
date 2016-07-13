@@ -1,6 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -24,6 +23,7 @@
 <link rel="import" href="app-icons.html">
 <link rel="import" href="pa-page-about.html">
 <link rel="import" href="pa-page-404.html">
+<link rel="import" href="pa-page-resource.html">
 <link rel="import" href="pa-page-entities.html">
 <link rel="import" href="pa-page-offers.html">
 <link rel="import" href="pa-page-detail.html">
@@ -88,6 +88,9 @@
     <!-- main menu -->
     <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
       fallback-selection="404" selected-item="{{selectedPage}}">
+
+      <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}"
+        on-title-changed="_updateTitle"></pa-page-resource>
 
       <pa-page-entities data-page="entities" list="[[list]]"
         on-title-changed="_updateTitle"></pa-page-entities>
