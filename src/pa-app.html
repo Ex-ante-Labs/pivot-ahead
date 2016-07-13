@@ -178,7 +178,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _routePageChanged: function(page) {
-        this.page = page || 'entities';
+        if (!page) { this.routeData.page = 'entities' }
+        this.page = this.routeData.page;
       }
 
     });

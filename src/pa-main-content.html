@@ -83,13 +83,21 @@
     <!-- main menu -->
     <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
       fallback-selection="404" selected-item="{{selectedPage}}">
-      <pa-page-entities data-page="entities" on-title-changed="_updateTitle"></pa-page-entities>
+
+      <pa-page-entities data-page="entities" tab="[[routeData.tab]]" on-title-changed="_updateTitle">
+      </pa-page-entities>
+
       <pa-page-list data-page="list" on-title-changed="_updateTitle"></pa-page-list>
+
       <pa-page-detail data-page="detail" on-title-changed="_updateTitle"
         route="[[routeTail]]"></pa-page-detail>
+
       <pa-page-analytics data-page="analytics" on-title-changed="_updateTitle"></pa-page-analytics>
+
       <pa-page-about data-page="about" on-title-changed="_updateTitle"></pa-page-about>
+
       <pa-page-404 data-page="404" on-title-changed="_updateTitle"></pa-page-404>
+
     </iron-pages>
 
   </template>

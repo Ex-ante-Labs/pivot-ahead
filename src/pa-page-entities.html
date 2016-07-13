@@ -9,15 +9,13 @@
       }
     </style>
 
-    <ul>
-      <li><a data-page="list" href="/list"><h1>Where to invest?</h1></a></li>
-      <li><a data-page="analytics" href="/analytics"><h1>Analytics</h1></a></li>
-    </ul>
+    <h1>[[tab]]</h1>
   </template>
   <script>
     Polymer({
       is: 'pa-page-entities',
       properties: {
+        tab: String,
         title: {
           value: 'Entities',
           notify: true
