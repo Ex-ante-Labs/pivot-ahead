@@ -12,23 +12,18 @@
         display: block;
       }
     </style>
-    
+
     <app-route route="{{route}}" pattern="/:key" data="{{routeData}}"
       tail="{{routeTail}}"></app-route>
-    
+
     <app-route route="{{routeTail}}" pattern="/:tab" data="{{subrouteData}}">
     </app-route>
-    
+
     <firebase-document
       path="[[_path(routeData.key)]]"
       data="{{resource}}">
     </firebase-query>
-    
-    <firebase-query
-      path="_path(routeData.key,subrouteData.key)"
-      data="{{data}}">
-    </firebase-query>
-    
+
     <template is="dom-repeat" items="[[data]]" as="item">
       <pa-list-item item="[[item]]"></pa-list-item>
     </template>
@@ -43,11 +38,13 @@
         },
         title: {
           value: 'Resource',
-          computed: _valueOf(resource.n),
+          computed: '_valueOf(resource.n)',
           notify: true
         }
       },
-
+      _path: function(key) {
+        return '/l/' + key
+      },
       _valueOf: function(v) {
         return v
       }
