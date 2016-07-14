@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="pa-list-item.html">
 
 <dom-module id="pa-page-resource">
@@ -20,13 +21,25 @@
     </app-route>
 
     <firebase-document
-      path="[[_path(routeData.key)]]"
+      path="[[_documentPath(routeData.key)]]"
       data="{{resource}}">
+    </firebase-document>
+
+    <firebase-query
+      path="[[_listPath(routeData.key)]]"
+      data="{{tabs}}">
     </firebase-query>
 
-    <template is="dom-repeat" items="[[data]]" as="item">
-      <pa-list-item item="[[item]]"></pa-list-item>
-    </template>
+    <firebase-query
+      path="[[_listPath(selectedTab)]]"
+      data="{{list}}">
+    </firebase-query>
+
+    <iron-selector attr-for-selected="key" selected="{{routeData.key}}">
+      <template is="dom-repeat" items="[[list]]" as="item">
+        <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
+      </template>
+    </iron-selector>
   </template>
   <script>
     Polymer({
@@ -37,17 +50,43 @@
           notify: true
         },
         title: {
+          type: String,
           value: 'Resource',
           computed: '_valueOf(resource.n)',
           notify: true
+        },
+        tabs: {
+          type: Object,
+          notify: true
+        },
+        selectedTab: {
+          type: String,
+          notify: true
         }
       },
-      _path: function(key) {
+      observers: [
+        '_tabChanged(selectedTab)',
+        '_tabRouteChanged(subrouteData.tab)'
+      ],
+      _documentPath: function(key) {
         return '/l/' + key
+      },
+      _listPath: function(key) {
+        return '/l/' + key + '/l'
       },
       _valueOf: function(v) {
         return v
+      },
+      _tabChanged: function(tab) {
+        this.set('subrouteData.tab', tab);
+      },
+      _tabRouteChanged: function(tab) {
+        this.selectedTab = tab;
+      },
+      _log(v) {
+        console.log(v);
       }
+
     });
   </script>
 </dom-module>

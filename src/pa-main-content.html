@@ -78,9 +78,10 @@
           </div>
           <h1 main-title>[[selectedPage.title]]</h1>
         </app-toolbar>
-        <paper-tabs attr-for-selected="tab-id" selected="{{routeData.tab}}" sticky>
-          <paper-tab tab-id="overview">Overview</paper-tab>
-          <paper-tab tab-id="list">List</paper-tab>
+        <paper-tabs attr-for-selected="tab-key" selected="{{selectedTab}}" sticky>
+          <template is="dom-repeat" items="[[tabs]]" as="tab">
+            <paper-tab tab-key="[[tab.$key]]">[[tab.n]]</paper-tab>
+          </template>
         </paper-tabs>
       </app-header>
     </app-header-layout>
@@ -89,7 +90,7 @@
     <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
       fallback-selection="404" selected-item="{{selectedPage}}">
 
-      <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}"
+      <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}" selected-tab="{{selectedTab}}"
         on-title-changed="_updateTitle"></pa-page-resource>
 
       <pa-page-entities data-page="entities" list="[[list]]"
@@ -119,6 +120,10 @@
           notify: true
         },
         title: String
+      },
+
+      _log(v) {
+        console.log(v);
       },
 
       _updateTitle: function() {
