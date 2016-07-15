@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="pa-list-item.html">
+<link rel="import" href="pa-page-property-list.html">
 <link rel="import" href="pa-property-item.html">
 
 <dom-module id="pa-page-resource">
@@ -32,22 +33,12 @@
     </firebase-query>
 
     <firebase-query
-      id ="props"
-      path="[[_listPath(resource.p)]]"
-      data="{{props}}">
-    </firebase-query>
-
-    <firebase-query
       path="[[_listPath(selectedTab)]]"
       data="{{list}}">
     </firebase-query>
 
-    <div hidden="[[selectedTab]]">
-      <template is="dom-repeat" items="[[props]]" as="property">
-        <pa-property-item name="[[property.n]]" value="[[_propertyValue(resource, property.$key)]]">
-        </pa-property-item>
-      </template>
-    </div>
+    <pa-page-property-list hidden="[[selectedTab]]" resource="{{resource}}"></pa-page-property-list>
+    
     <iron-selector hidden="[[!selectedTab]]" attr-for-selected="key" selected="{{routeData.key}}">
       <template is="dom-repeat" items="[[list]]" as="item">
         <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
@@ -80,7 +71,6 @@
       observers: [
         '_tabChanged(selectedTab)',
         '_tabRouteChanged(subrouteData.tab)',
-        '_log(isPropertyTab)'
       ],
       _documentPath: function(key) {
         return '/l/' + key
@@ -103,9 +93,6 @@
       },
       _log(v) {
         console.log(v);
-      },
-      _propertyValue(resource, key) {
-        return resource[key]
       }
 
     });

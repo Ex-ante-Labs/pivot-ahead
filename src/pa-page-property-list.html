@@ -1,0 +1,76 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html"><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!-- <!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --> -->
+
+<dom-module id="pa-page-property-list">
+  <template>
+
+    <style include="shared-styles">
+    </style>
+
+    <firebase-query path="[[_listPath(resource.p)]]" data="{{props}}"
+      order-by-child="o">
+    </firebase-query>
+
+    <template is="dom-repeat" items="[[props]]" as="property">
+
+      <template is="dom-if" if="[[_is(property.t, 'toggle')]]">
+        <paper-toggle-button key="[[property.$key]]"
+          checked="{{_propertyValue(resource, property.$key)}}"
+          on-checked-changed="_updatePropertyValue">
+          [[property.n]]
+        </paper-toggle-button>
+      </template>
+
+      <template is="dom-if" if="[[_isOther(property.t)]]">
+        <paper-input key="[[property.$key]]" label="[[property.n]]"
+          value="[[_propertyValue(resource, property.$key)]]"
+          on-value-changed="_updatePropertyValue">
+        </paper-input>
+      </template>
+      
+    </template>
+
+  </template>
+  <script>
+   "use strict"; 
+    Polymer({
+      is: 'pa-page-property-list',
+      properties: {
+        resource: {
+          type: Object,
+          notify: true
+        },
+        _isSynced: {
+          type: Object,
+          value: {}
+        }
+      },
+      _is: function(a, b) {
+        return a == b
+      },
+      _isOther: function(a) {
+        return a != 'toggle'
+      },
+      _updatePropertyValue: function(e, v) {
+        /* console.log('changed {', e.target.key, '} to {', v.value,*/
+        /* '} while in fb {', this.resource[e.target.key],*/
+        /* '} and isSynced {', this._isSynced,'}');*/
+        if (this._isSynced[e.target.key] && this.resource[e.target.key] != v.value) {
+          this.set('resource.' + e.target.key, v.value);
+        }
+      },
+      _listPath: function(key) {
+        return '/l/' + key + '/l'
+      },
+      _propertyValue: function(resource, key) {
+        /* console.log('set {', key, '} to {', resource[key], '}');*/
+        this._isSynced[key] = true;
+        return resource[key]
+      }
+
+    });
+  </script>
+</dom-module>

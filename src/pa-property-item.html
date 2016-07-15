@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="pa-property-item">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+      }
+    </style>
+    <paper-input label="[[label]]" value="{{value}}">
+  </template>
+  <script>
+    Polymer({
+      is: 'pa-property-item',
+
+      properties: {
+        label: String,
+        value: {
+          type: String,
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>

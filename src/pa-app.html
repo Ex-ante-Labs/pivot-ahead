@@ -133,8 +133,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <!-- drawer menu -->
           <iron-selector selected="[[routeData.page]]" attr-for-selected="data-page"
             on-iron-activate="_drawerSelected">
-            <a data-page="entities" href="/entities/list">Entities</a>
-            <a data-page="offers" href="/offers/list">Offers</a>
+            <a data-page="entities" href="/resource/basil-pupken/basil-entities">Partners</a>
+            <a data-page="offers" href="/resource/basil-pupken/basil-offers">Offers</a>
           </iron-selector>
         </app-header-layout>
       </app-drawer>
@@ -176,7 +176,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _routePageChanged: function(page) {
-        if (!page) { this.set('route.path', '/entities/list') }
+        if (!page) { this.set('route.path', '/resource/basil-pupken/') }
         this.page = page;
       }
 
