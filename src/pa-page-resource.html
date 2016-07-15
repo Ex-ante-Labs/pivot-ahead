@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="pa-list-item.html">
+<link rel="import" href="pa-property-item.html">
 
 <dom-module id="pa-page-resource">
   <template>
@@ -30,20 +31,22 @@
       data="{{tabs}}">
     </firebase-query>
 
-    <!-- <firebase-query
-         path="[[_propertyPath(routeData.key)]]"
-         data="{{properties}}">
-         </firebase-query>
-       -->
+    <firebase-query
+      id ="props"
+      path="[[_listPath(resource.p)]]"
+      data="{{props}}">
+    </firebase-query>
+
     <firebase-query
       path="[[_listPath(selectedTab)]]"
       data="{{list}}">
     </firebase-query>
 
     <div hidden="[[selectedTab]]">
-      <!-- <template is="dom-repeat" items="[[properties]]" as="property"> -->
-      <!-- [[property.$key]] -->
-      <!-- </template> -->
+      <template is="dom-repeat" items="[[props]]" as="property">
+        <pa-property-item name="[[property.n]]" value="[[_propertyValue(resource, property.$key)]]">
+        </pa-property-item>
+      </template>
     </div>
     <iron-selector hidden="[[!selectedTab]]" attr-for-selected="key" selected="{{routeData.key}}">
       <template is="dom-repeat" items="[[list]]" as="item">
@@ -85,21 +88,24 @@
       _listPath: function(key) {
         return '/l/' + key + '/l'
       },
-      _propertyPath: function(key) {
-        return '/l/' + key + '/l'
-      },
       _valueOf: function(v) {
         return v
       },
       _tabChanged: function(tab) {
-        this.set('subrouteData.tab', tab);
+        if (this.subrouteData.tab != tab) {
+          this.set('subrouteData.tab', tab);
+        }
       },
       _tabRouteChanged: function(tab) {
-        console.log(tab);
-        this.selectedTab = tab;
+        if (this.selectedTab != tab) {
+          this.selectedTab = tab;
+        }
       },
       _log(v) {
         console.log(v);
+      },
+      _propertyValue(resource, key) {
+        return resource[key]
       }
 
     });
