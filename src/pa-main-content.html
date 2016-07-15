@@ -73,12 +73,14 @@
           <div class="left-bar-item">
             <content></content>
             <a class="back-btn" href="/list" tabindex="-1">
-              <paper-icon-button icon="app:arrow-back" aria-label="Go back"></paper-icon-button>
+              <paper-icon-button icon="app:arrow-back" aria-label="Go back">
+              </paper-icon-button>
             </a>
           </div>
           <h1 main-title>[[selectedPage.title]]</h1>
         </app-toolbar>
         <paper-tabs attr-for-selected="tab-key" selected="{{selectedTab}}" sticky>
+          <paper-tab tab-key="">Properties</paper-tab>
           <template is="dom-repeat" items="[[tabs]]" as="tab">
             <paper-tab tab-key="[[tab.$key]]">[[tab.n]]</paper-tab>
           </template>
@@ -90,8 +92,9 @@
     <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
       fallback-selection="404" selected-item="{{selectedPage}}">
 
-      <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}" selected-tab="{{selectedTab}}"
-        on-title-changed="_updateTitle"></pa-page-resource>
+      <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}"
+        selected-tab="{{selectedTab}}" on-title-changed="_updateTitle">
+      </pa-page-resource>
 
       <pa-page-entities data-page="entities" list="[[list]]"
         on-title-changed="_updateTitle"></pa-page-entities>
