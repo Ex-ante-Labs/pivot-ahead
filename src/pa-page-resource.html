@@ -30,12 +30,22 @@
       data="{{tabs}}">
     </firebase-query>
 
+    <!-- <firebase-query
+         path="[[_propertyPath(routeData.key)]]"
+         data="{{properties}}">
+         </firebase-query>
+       -->
     <firebase-query
       path="[[_listPath(selectedTab)]]"
       data="{{list}}">
     </firebase-query>
 
-    <iron-selector attr-for-selected="key" selected="{{routeData.key}}">
+    <div hidden="[[selectedTab]]">
+      <!-- <template is="dom-repeat" items="[[properties]]" as="property"> -->
+      <!-- [[property.$key]] -->
+      <!-- </template> -->
+    </div>
+    <iron-selector hidden="[[!selectedTab]]" attr-for-selected="key" selected="{{routeData.key}}">
       <template is="dom-repeat" items="[[list]]" as="item">
         <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
       </template>
@@ -66,12 +76,16 @@
       },
       observers: [
         '_tabChanged(selectedTab)',
-        '_tabRouteChanged(subrouteData.tab)'
+        '_tabRouteChanged(subrouteData.tab)',
+        '_log(isPropertyTab)'
       ],
       _documentPath: function(key) {
         return '/l/' + key
       },
       _listPath: function(key) {
+        return '/l/' + key + '/l'
+      },
+      _propertyPath: function(key) {
         return '/l/' + key + '/l'
       },
       _valueOf: function(v) {
