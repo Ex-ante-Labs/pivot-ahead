@@ -22,7 +22,7 @@
     <app-route route="{{routeTail}}" pattern="/:tab" data="{{subrouteData}}">
     </app-route>
 
-    <firebase-document
+    <firebase-document id="fbResource"
       path="[[_documentPath(routeData.key)]]"
       data="{{resource}}">
     </firebase-document>
@@ -37,8 +37,10 @@
       data="{{list}}">
     </firebase-query>
 
-    <pa-page-property-list hidden="[[selectedTab]]" resource="{{resource}}"></pa-page-property-list>
-    
+    <pa-page-property-list hidden="[[selectedTab]]" key="[[routeData.key]]"
+      resource="{{resource}}" zero-value="[[_zeroValue()]]">
+    </pa-page-property-list>
+
     <iron-selector hidden="[[!selectedTab]]" attr-for-selected="key" selected="{{routeData.key}}">
       <template is="dom-repeat" items="[[list]]" as="item">
         <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
@@ -72,6 +74,9 @@
         '_tabChanged(selectedTab)',
         '_tabRouteChanged(subrouteData.tab)',
       ],
+      _zeroValue: function() {
+        return this.$.fbResource.zeroValue
+      },
       _documentPath: function(key) {
         return '/l/' + key
       },
