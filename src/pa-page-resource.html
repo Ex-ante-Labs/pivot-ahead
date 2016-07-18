@@ -38,7 +38,7 @@
     </firebase-query>
 
     <pa-page-property-list hidden="[[selectedTab]]" key="[[routeData.key]]"
-      resource="{{resource}}" zero-value="[[_zeroValue()]]">
+      resource="{{resource}}">
     </pa-page-property-list>
 
     <template is="dom-repeat" items="[[list]]" as="item">
@@ -72,9 +72,6 @@
         '_tabChanged(selectedTab)',
         '_tabRouteChanged(subrouteData.tab)',
       ],
-      _zeroValue: function() {
-        return this.$.fbResource.zeroValue
-      },
       _documentPath: function(key) {
         return '/l/' + key
       },

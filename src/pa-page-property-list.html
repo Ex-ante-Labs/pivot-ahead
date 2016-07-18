@@ -43,13 +43,12 @@
           type: Object,
           notify: true
         },
-        _isSynced: {
+        isSynced: {
           type: Object
         }
       },
       observers: [
         /* '_updateControl(props, resource.*)'*/
-        /* '_log("_isSynced", _isSynced)',*/
         /* '_log("resource", resource)',*/
         /* '_log("props", props)',*/
         /* '_subLog("props", props)',*/
@@ -61,22 +60,22 @@
           /* console.log('value=_propertyValue(', resource, ',', key, ') =',*/
           /* resource[key]);*/
           /* }*/
-          this.set('_isSynced.' + key, true);
+          this.set('isSynced.' + key, true);
           return resource[key]
         }
       },
       _resetSync: function() {
         /* console.log('_resetSync()')*/
-        this._isSynced = {};
+        this.isSynced = {};
       },
       _updatePropertyValue: function(e, v) {
         var key = e.target.key;
         /* if (!e.target.key || key == 'n') {*/
         /* console.log('on-value-changed=_updatePropertyValue(key =', key, ', v =', v,*/
         /* ') while in fb {', this.resource[key],*/
-        /* '} and isSynced {', this._isSynced,'}');*/
+        /* '} and isSynced {', this.isSynced,'}');*/
         /* }*/
-        if (this._isSynced[key]
+        if (this.isSynced[key]
             && v.value !== undefined
             && v.value !== this.resource[key]) {
           this.set('resource.' + key, v.value);
