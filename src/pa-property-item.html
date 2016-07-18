@@ -1,29 +1,53 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
-<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="pa-property-item">
   <template>
+
     <style is="custom-style">
       :host {
         display: block;
       }
+      paper-dropdown-menu {
+        width: 100%;
+      }
     </style>
-    <paper-input label="[[label]]" value="{{value}}">
+
+    <firebase-query path="[[_listPath(property.$key)]]" order-by-child="o" data="{{options}}">
+    </firebase-query>
+
+    <paper-dropdown-menu label="[[property.n]]">
+      <paper-listbox class="dropdown-content" attr-for-selected="key" selected="{{selected}}">
+        <template is="dom-repeat" items="[[options]]" as="option">
+          <paper-item key="[[option.$key]]">[[option.n]]</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+
   </template>
   <script>
     Polymer({
       is: 'pa-property-item',
 
       properties: {
-        label: String,
-        value: {
+        property: Object,
+        selected: {
           type: String,
           notify: true
         }
+      },
+
+      _listPath: function(key) {
+        return '/l/' + key + '/l'
+      },
+      _log: function(n, o) {
+        console.log('_log(n =', n, ', o =', o, ')');
       }
+
     });
   </script>
 </dom-module>

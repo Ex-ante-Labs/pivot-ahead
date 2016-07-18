@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="pa-property-item.html">
 
 <dom-module id="pa-page-property-list">
   <template>
@@ -22,6 +23,13 @@
 
     <template is="dom-repeat" items="[[props]]" as="property">
 
+      <template is="dom-if" if="[[_isOther(property.t)]]">
+        <paper-input key="[[property.$key]]" label="[[property.n]]"
+          value="[[_propertyValue(resource, property.$key)]]"
+          on-value-changed="_updatePropertyValue">
+        </paper-input>
+      </template>
+
       <template is="dom-if" if="[[_is(property.t, 'toggle')]]">
         <paper-toggle-button key="[[property.$key]]"
           checked="[[_propertyValue(resource, property.$key)]]"
@@ -30,18 +38,17 @@
         </paper-toggle-button>
       </template>
 
-      <template is="dom-if" if="[[_isOther(property.t)]]">
-        <paper-input key="[[property.$key]]" label="[[property.n]]"
-          value="[[_propertyValue(resource, property.$key)]]"
-          on-value-changed="_updatePropertyValue">
-        </paper-input>
+      <template is="dom-if" if="[[_is(property.t, 'dropdown')]]">
+        <pa-property-item key="[[property.$key]]" property="[[property]]"
+          selected="[[_propertyValue(resource, property.$key)]]" on-selected-changed="_updatePropertyValue">
+        </pa-property-item>
       </template>
 
     </template>
 
   </template>
   <script>
-   "use strict"; 
+   "use strict";
     Polymer({
       is: 'pa-page-property-list',
       properties: {
@@ -76,7 +83,7 @@
       },
       _updatePropertyValue: function(e, v) {
         var key = e.target.key;
-        /* if (!e.target.key || key == 'n') {*/
+        /* if (key === 'gender') {*/
         /* console.log('on-value-changed=_updatePropertyValue(key =', key, ', v =', v,*/
         /* ') while in fb {', this.resource[key],*/
         /* '} and isSynced {', this.isSynced,'}');*/
@@ -101,7 +108,7 @@
         return a == b
       },
       _isOther: function(a) {
-        return a != 'toggle'
+        return a != 'toggle' && a!= 'dropdown'
       },
       _listPath: function(key) {
         /* console.log('_listPath(key =', key, ')')*/

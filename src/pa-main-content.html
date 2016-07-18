@@ -21,13 +21,8 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="app-icons.html">
-<link rel="import" href="pa-page-about.html">
 <link rel="import" href="pa-page-404.html">
 <link rel="import" href="pa-page-resource.html">
-<link rel="import" href="pa-page-entities.html">
-<link rel="import" href="pa-page-offers.html">
-<link rel="import" href="pa-page-detail.html">
-<link rel="import" href="pa-page-analytics.html">
 
 <dom-module id="pa-main-content">
   <template>
@@ -79,7 +74,7 @@
           </div>
           <h1 main-title>[[selectedPage.title]]</h1>
         </app-toolbar>
-        <paper-tabs attr-for-selected="tab-key" selected="{{selectedTab}}" sticky>
+        <paper-tabs scrollable fit-container attr-for-selected="tab-key" selected="{{selectedTab}}" sticky>
           <paper-tab tab-key="">Properties</paper-tab>
           <template is="dom-repeat" items="[[tabs]]" as="tab">
             <paper-tab tab-key="[[tab.$key]]">[[tab.n]]</paper-tab>
@@ -95,12 +90,6 @@
       <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}"
         selected-tab="{{selectedTab}}" on-title-changed="_updateTitle">
       </pa-page-resource>
-
-      <pa-page-entities data-page="entities" list="[[list]]"
-        on-title-changed="_updateTitle"></pa-page-entities>
-
-      <pa-page-offers data-page="offers" list="[[list]]"
-        on-title-changed="_updateTitle"></pa-page-offers>
 
       <pa-page-404 data-page="404"></pa-page-404>
 
