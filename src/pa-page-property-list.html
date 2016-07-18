@@ -10,21 +10,23 @@
     <style include="shared-styles">
     </style>
 
-    <firebase-query id="fbProperties" path="[[_listPath(resource.p)]]" data="{{props}}"
+    <firebase-query path="[[_listPath(resource.p)]]" data="{{props}}"
       order-by-child="o">
     </firebase-query>
 
     <template is="dom-repeat" items="[[props]]" as="property">
 
       <template is="dom-if" if="[[_is(property.t, 'toggle')]]">
-        <paper-toggle-button id="[[property.$key]]"
+        <paper-toggle-button key="[[property.$key]]"
+          checked="[[_propertyValue(resource, property.$key)]]"
           on-checked-changed="_updatePropertyValue">
           [[property.n]]
         </paper-toggle-button>
       </template>
 
       <template is="dom-if" if="[[_isOther(property.t)]]">
-        <paper-input id="[[property.$key]]" label="[[property.n]]"
+        <paper-input key="[[property.$key]]" label="[[property.n]]"
+          value="[[_propertyValue(resource, property.$key)]]"
           on-value-changed="_updatePropertyValue">
         </paper-input>
       </template>
@@ -37,52 +39,58 @@
     Polymer({
       is: 'pa-page-property-list',
       properties: {
-        key: {
-          type: String,
-          observer: '_resetSyncStatus'
-        },
         resource: {
           type: Object,
-          notify: true,
+          notify: true
         },
         _isSynced: {
           type: Object
-        },
-        zeroValue: Object
+        }
       },
       observers: [
-        '_updateControl(props, resource.*)'
-        /* '_log("zeroValue", zeroValue)',*/
-        /* '_log("key", key)',*/
+        /* '_updateControl(props, resource.*)'*/
         /* '_log("_isSynced", _isSynced)',*/
-        /* '_resetSyncStatus(key)',*/
-      /* '_log("resource", resource)',*/
-      /* '_log("props", props)'*/
+        /* '_log("resource", resource)',*/
+        /* '_log("props", props)',*/
+        /* '_subLog("props", props)',*/
+        '_resetSync(props)'
       ],
-      _updateControl: function(props, resource) {
-        console.log('_updateControl(', props, resource,')');
-        /* this.$[res]*/
+      _propertyValue: function(resource, key) {
+        if (true) {
+          /* if (key == 'n') {*/
+          /* console.log('value=_propertyValue(', resource, ',', key, ') =',*/
+          /* resource[key]);*/
+          /* }*/
+          this.set('_isSynced.' + key, true);
+          return resource[key]
+        }
       },
-      _resetSyncStatus: function(key) {
-        console.log('resetSyncStatus(', key, ')')
-        this.$.fbProperties.path = null;
+      _resetSync: function() {
+        /* console.log('_resetSync()')*/
         this._isSynced = {};
       },
-      _propertyValue: function(resource, key) {
-        if (key && resource != this.zeroValue) {
-          if (key == 'n') {
-            console.log('control {', key, '} to {', resource[key], '} while resource {',
-                        resource, '}, isZero =', resource == this.zeroValue);
-          }
-          this.set('_isSynced.' + key, true);
+      _updatePropertyValue: function(e, v) {
+        var key = e.target.key;
+        /* if (!e.target.key || key == 'n') {*/
+        /* console.log('on-value-changed=_updatePropertyValue(key =', key, ', v =', v,*/
+        /* ') while in fb {', this.resource[key],*/
+        /* '} and isSynced {', this._isSynced,'}');*/
+        /* }*/
+        if (this._isSynced[key]
+            && v.value !== undefined
+            && v.value !== this.resource[key]) {
+          this.set('resource.' + key, v.value);
         }
-        return resource[key]
+      },
+      _updateControl: function(props, resource) {
+        /* console.log('_updateControl(', props, resource,')');*/
+        /* this.$[res]*/
       },
       _log: function(s, v) {
-        console.log('_log:', s, '=', v);
+        console.log('_log(s =', s, ', v =', v, ')');
       },
       _subLog: function(s, v) {
-        console.log('_subLog(', s, '=', v.value, ')');
+        console.log('_subLog(', s, ',', JSON.stringify(v), ')');
       },
       _is: function(a, b) {
         return a == b
@@ -90,19 +98,8 @@
       _isOther: function(a) {
         return a != 'toggle'
       },
-      _updatePropertyValue: function(e, v) {
-        console.log('firebase {', e.target.key, '} to {', v.value,
-                    '} while in fb {', this.resource[e.target.key],
-                    '} and isSynced {', this._isSynced,'}');
-        if (this._isSynced[e.target.key]
-            && this.resource[e.target.key] != v.value) {
-          if (!e.target.key || e.target.key == 'n') {
-          }
-          this.set('resource.' + e.target.key, v.value);
-        }
-      },
       _listPath: function(key) {
-        console.log('path to property list.', key)
+        /* console.log('_listPath(key =', key, ')')*/
         return '/l/' + key + '/l'
       }
 
