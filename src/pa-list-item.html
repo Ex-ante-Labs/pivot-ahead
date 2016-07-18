@@ -6,7 +6,7 @@
 <dom-module id="pa-list-item">
   <template>
     <style is="custom-style">
-      .link {
+      a {
         text-decoration: none;
       }
       .avatar {
@@ -18,13 +18,15 @@
         background: var(--paper-amber-500);
       }
     </style>
-    <paper-icon-item>
-      <div class="avatar" item-icon></div>
-      <paper-item-body two-line>
-        <div>[[item.n]]</div>
+    <a href="/resource/[[item.$key]]/">
+      <paper-icon-item>
+        <div class="avatar" item-icon></div>
+        <paper-item-body two-line>
+          <div>[[item.n]]</div>
         <div secondary>[[item.t]]</div>
-      </paper-item-body>
-    </paper-icon-item>
+        </paper-item-body>
+      </paper-icon-item>
+    </a>
   </template>
   <script>
     Polymer({

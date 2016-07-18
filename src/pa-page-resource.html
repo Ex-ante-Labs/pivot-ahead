@@ -41,11 +41,9 @@
       resource="{{resource}}" zero-value="[[_zeroValue()]]">
     </pa-page-property-list>
 
-    <iron-selector hidden="[[!selectedTab]]" attr-for-selected="key" on-selected-changed="[[_changeRoutePath]]">
-      <template is="dom-repeat" items="[[list]]" as="item">
-        <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
-      </template>
-    </iron-selector>
+    <template is="dom-repeat" items="[[list]]" as="item">
+      <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
+    </template>
   </template>
   <script>
     Polymer({
@@ -74,10 +72,6 @@
         '_tabChanged(selectedTab)',
         '_tabRouteChanged(subrouteData.tab)',
       ],
-      _changeRoutePath: function(e, v) {
-        console.log('_routeChanged(e =', e, ', v =', v, '); route = ', this.route, '; routeTail =', this.routeTail);
-        this.set('route.path', key + '/')
-      },
       _zeroValue: function() {
         return this.$.fbResource.zeroValue
       },
