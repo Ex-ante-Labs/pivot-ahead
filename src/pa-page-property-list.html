@@ -8,8 +8,14 @@
   <template>
 
     <style include="shared-styles">
+      :host(:not([hidden])) {
+        display: block;
+        padding: 4px 16px;
+      }
+      :host([hidden]) {
+        display: none;
+      }
     </style>
-
     <firebase-query path="[[_listPath(resource.p)]]" data="{{props}}"
       order-by-child="o">
     </firebase-query>
