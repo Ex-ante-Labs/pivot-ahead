@@ -1,9 +1,8 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/psk-app.html",
+  "shell": "src/pa-app.html",
   "fragments": [
-    "src/psk-page-home.html",
-    "src/psk-page-about.html",
+    "src/pa-page-resource.html",
     "src/psk-page-404.html"
   ]
 }

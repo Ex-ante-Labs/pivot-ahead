@@ -3,11 +3,11 @@
   "description": "A starting point for Polymer 1.0 apps",
   "repository": {
     "type": "git",
-    "url": "git@github.com:PolymerElements/polymer-starter-kit.git"
+    "url": "git@github.com:Ex-ante-Labs/pivot-ahead.git"
   },
   "license": "http://polymer.github.io/LICENSE.txt",
   "bugs": {
-    "url": "https://github.com/PolymerElements/polymer-starter-kit/issues"
+    "url": "https://github.com/Ex-ante-Labs/pivot-ahead/issues"
   },
   "engines": {
     "node": ">=0.10.0"
