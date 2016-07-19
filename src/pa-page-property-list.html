@@ -61,17 +61,15 @@
         }
       },
       observers: [
-        /* '_updateControl(props, resource.*)'*/
         /* '_log("resource", resource)',*/
         /* '_log("props", props)',*/
-        /* '_subLog("props", props)',*/
-        '_resetSync(props)'
+        /* '_subLog("props", props.*)',*/
+        '_resetSync(props.*)'
       ],
       _propertyValue: function(resource, key) {
         if (true) {
           /* if (key == 'n') {*/
-          /* console.log('value=_propertyValue(', resource, ',', key, ') =',*/
-          /* resource[key]);*/
+          /* console.log('value=_propertyValue(', resource, ',', key, ') =', resource[key]);*/
           /* }*/
           this.set('isSynced.' + key, true);
           return resource[key]
@@ -83,7 +81,7 @@
       },
       _updatePropertyValue: function(e, v) {
         var key = e.target.key;
-        /* if (key === 'gender') {*/
+        /* if (key === 'n') {*/
         /* console.log('on-value-changed=_updatePropertyValue(key =', key, ', v =', v,*/
         /* ') while in fb {', this.resource[key],*/
         /* '} and isSynced {', this.isSynced,'}');*/
@@ -93,10 +91,6 @@
             && v.value !== this.resource[key]) {
           this.set('resource.' + key, v.value);
         }
-      },
-      _updateControl: function(props, resource) {
-        /* console.log('_updateControl(', props, resource,')');*/
-        /* this.$[res]*/
       },
       _log: function(s, v) {
         console.log('_log(s =', s, ', v =', v, ')');
