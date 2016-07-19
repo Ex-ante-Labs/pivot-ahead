@@ -79,10 +79,10 @@
           <h1 main-title>[[selectedPage.title]]</h1>
         </app-toolbar>
         <paper-tabs scrollable fit-container attr-for-selected="tab-key" selected="{{selectedTab}}" sticky>
-          <paper-tab tab-key="">Properties</paper-tab>
           <template is="dom-repeat" items="[[tabs]]" as="tab">
             <paper-tab tab-key="[[tab.$key]]">[[tab.n]]</paper-tab>
           </template>
+          <paper-tab tab-key="">Profile</paper-tab>
         </paper-tabs>
       </app-header>
     </app-header-layout>

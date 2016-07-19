@@ -40,7 +40,8 @@
 
       <template is="dom-if" if="[[_is(property.t, 'dropdown')]]">
         <pa-property-item key="[[property.$key]]" property="[[property]]"
-          selected="[[_propertyValue(resource, property.$key)]]" on-selected-changed="_updatePropertyValue">
+          selected="[[_propertyValue(resource, property.$key)]]"
+          on-selected-changed="_updatePropertyValue">
         </pa-property-item>
       </template>
 
