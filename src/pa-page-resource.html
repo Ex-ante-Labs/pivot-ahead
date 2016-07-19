@@ -3,10 +3,10 @@
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="pa-list-item.html">
 <link rel="import" href="pa-page-property-list.html">
-<link rel="import" href="pa-property-item.html">
+<link rel="import" href="pa-tab-list.html">
 
 <dom-module id="pa-page-resource">
   <template>
@@ -27,29 +27,26 @@
       data="{{resource}}">
     </firebase-document>
 
-    <firebase-document
-      path="[[_documentPath(resource.t)]]"
-      data="{{type}}">
-    </firebase-document>
-
     <firebase-query
-      path="[[_listPath(type.t)]]"
-      data="{{tabs}}"
-      order-by-child="o">
+      path="[[_path(resource.t, 'tabs')]]"
+      order-by-child="o"
+      data="{{tabs}}">
     </firebase-query>
 
-    <firebase-query
-      path="[[_listPath(selectedTab)]]"
-      data="{{list}}">
-    </firebase-query>
+    <iron-pages attr-for-selected="key"
+      selected="[[selectedTab]]">
 
-    <pa-page-property-list hidden="[[selectedTab]]" key="[[routeData.key]]"
-      resource="{{resource}}">
-    </pa-page-property-list>
+      <pa-page-property-list key="" resource="{{resource}}">
+      </pa-page-property-list>
 
-    <template is="dom-repeat" items="[[list]]" as="item">
-      <pa-list-item key="[[item.$key]]" item="[[item]]"></pa-list-item>
-    </template>
+      <template is="dom-repeat" items="[[tabs]]" as="tab">
+        <pa-tab-list key="[[tab.$key]]"
+          path="[[_path(routeData.key, tab.$key)]]">
+        </pa-tab-list>
+      </template>
+
+    </iron-pages>
+
   </template>
   <script>
     Polymer({
@@ -83,11 +80,12 @@
         '_tabChanged(selectedTab)',
         '_tabRouteChanged(subrouteData.tab)',
       ],
+      _path(key, property) {
+        /* console.log('_path(key =',key,', property =',property,');');*/
+        return '/l/' + key + '/' + property
+      },
       _documentPath: function(key) {
         return '/l/' + key
-      },
-      _listPath: function(key) {
-        return '/l/' + key + '/l'
       },
       _valueOf: function(v) {
         return v

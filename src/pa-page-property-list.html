@@ -9,15 +9,13 @@
   <template>
 
     <style include="shared-styles">
-      :host(:not([hidden])) {
+      :host {
         display: block;
         padding: 4px 16px;
       }
-      :host([hidden]) {
-        display: none;
-      }
     </style>
-    <firebase-query path="[[_listPath(resource.p)]]" data="{{props}}"
+
+    <firebase-query path="[[_path(resource.t, 'p')]]" data="{{props}}"
       order-by-child="o">
     </firebase-query>
 
@@ -67,6 +65,10 @@
         /* '_subLog("props", props.*)',*/
         '_resetSync(props.*)'
       ],
+      _path(key, property) {
+        /* console.log('_path(key =',key,', property =',property,');');*/
+        return '/l/' + key + '/' + property
+      },
       _propertyValue: function(resource, key) {
         if (true) {
           /* if (key == 'n') {*/
