@@ -75,7 +75,8 @@
 
     <!-- main panel -->
     <app-header-layout>
-      <app-header condenses reveals fixed effects="waterfall" class="main-header">
+      <app-header condenses reveals fixed effects="waterfall"
+        class="main-header">
         <app-toolbar>
           <div class="left-bar-item">
             <content></content>
@@ -86,11 +87,12 @@
           </div>
           <h1 main-title>[[selectedPage.title]]</h1>
         </app-toolbar>
-        <paper-tabs scrollable fit-container attr-for-selected="tab-key" selected="{{selectedTab}}" sticky>
+        <paper-tabs scrollable fit-container attr-for-selected="key"
+          selected="{{selectedTab}}" sticky>
+          <paper-tab key="">[[selectedPage.type]]</paper-tab>
           <template is="dom-repeat" items="[[tabs]]" as="tab">
-            <paper-tab tab-key="[[tab.$key]]">[[tab.n]]</paper-tab>
+            <paper-tab key="[[tab.$key]]">[[tab.n]]</paper-tab>
           </template>
-          <paper-tab tab-key="">Profile</paper-tab>
         </paper-tabs>
       </app-header>
     </app-header-layout>
@@ -99,8 +101,9 @@
     <iron-pages id="pages" selected="[[page]]" attr-for-selected="data-page"
       fallback-selection="404" selected-item="{{selectedPage}}">
 
-      <pa-page-resource data-page="resource" route="{{route}}" tabs="{{tabs}}"
-        selected-tab="{{selectedTab}}" on-title-changed="_updateTitle">
+      <pa-page-resource data-page="resource" route="{{route}}"
+        tabs="{{tabs}}" selected-tab="{{selectedTab}}"
+        on-title-changed="_updateTitle" on-type-changed="_updateType">
       </pa-page-resource>
 
       <pa-page-404 data-page="404"></pa-page-404>
@@ -132,6 +135,10 @@
 
       _updateTitle: function() {
         this.notifyPath('selectedPage.title');
+      },
+
+      _updateType: function() {
+        this.notifyPath('selectedPage.type');
       },
 
       _path: function(page, tab) {

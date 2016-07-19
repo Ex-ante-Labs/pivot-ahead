@@ -22,13 +22,18 @@
     <app-route route="{{routeTail}}" pattern="/:tab" data="{{subrouteData}}">
     </app-route>
 
-    <firebase-document id="fbResource"
+    <firebase-document
       path="[[_documentPath(routeData.key)]]"
       data="{{resource}}">
     </firebase-document>
 
+    <firebase-document
+      path="[[_documentPath(resource.t)]]"
+      data="{{type}}">
+    </firebase-document>
+
     <firebase-query
-      path="[[_listPath(routeData.key)]]"
+      path="[[_listPath(type.t)]]"
       data="{{tabs}}"
       order-by-child="o">
     </firebase-query>
@@ -58,6 +63,11 @@
           type: String,
           value: 'Resource',
           computed: '_valueOf(resource.n)',
+          notify: true
+        },
+        type: {
+          type: String,
+          computed: '_valueOf(resource.t)',
           notify: true
         },
         tabs: {
