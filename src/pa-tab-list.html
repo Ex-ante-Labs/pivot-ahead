@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="pa-list-item.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<dom-module id="pa-tab-list">
+  <template>
+
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+
+      paper-fab {
+          position: fixed;
+          right: 24px;
+          bottom: 32px;
+      }
+    </style>
+
+    <firebase-query
+      path="[[path]]"
+      data="{{list}}">
+    </firebase-query>
+
+    <template is="dom-repeat" items="[[list]]" as="item">
+      <pa-list-item key="[[item.$key]]" item="[[item]]">
+      </pa-list-item>
+    </template>
+
+    <paper-fab></paper-fab>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pa-tab-list',
+
+      properties: {
+        path: String
+      },
+
+      _log(a, b, c) {
+        console.log('_log(a =',a,', b =',b,', c =',c,');');
+      }
+
+    });
+  </script>
+</dom-module>
