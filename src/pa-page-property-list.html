@@ -72,7 +72,8 @@
       _propertyValue: function(resource, key) {
         if (true) {
           /* if (key == 'n') {*/
-          /* console.log('value=_propertyValue(', resource, ',', key, ') =', resource[key]);*/
+          /* console.log('value=_propertyValue(', resource, ',', key, ') =',*/
+          /* resource[key]);*/
           /* }*/
           this.set('isSynced.' + key, true);
           return resource[key]
@@ -85,8 +86,8 @@
       _updatePropertyValue: function(e, v) {
         var key = e.target.key;
         /* if (key === 'n') {*/
-        /* console.log('on-value-changed=_updatePropertyValue(key =', key, ', v =', v,*/
-        /* ') while in fb {', this.resource[key],*/
+        /* console.log('on-value-changed=_updatePropertyValue(key =', key,*/
+        /* ', v =', v, ') while in fb {', this.resource[key],*/
         /* '} and isSynced {', this.isSynced,'}');*/
         /* }*/
         if (this.isSynced[key]

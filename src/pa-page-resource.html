@@ -33,15 +33,26 @@
       data="{{tabs}}">
     </firebase-query>
 
-    <iron-pages attr-for-selected="key"
+    <firebase-query
+      path="[[_path(routeData.key, 'u')]]"
+      data="{{copies}}">
+    </firebase-query>
+
+    <template is="dom-repeat" items="[[copies]]" as="copy">
+      <firebase-document path="[[copy.n]]" data="[[resource]]">
+      </firebase-document>
+    </template>
+
+    <iron-pages attr-for-selected="tab-key"
       selected="[[selectedTab]]">
 
-      <pa-page-property-list key="" resource="{{resource}}">
+      <pa-page-property-list tab-key="" resource="{{resource}}">
       </pa-page-property-list>
 
       <template is="dom-repeat" items="[[tabs]]" as="tab">
-        <pa-tab-list key="[[tab.$key]]"
-          path="[[_path(routeData.key, tab.$key)]]">
+        <pa-tab-list tab-key="[[tab.$key]]"
+          path="[[_path(routeData.key, tab.$key)]]" type="[[tab.t]]"
+          route-path="{{route.path}}">
         </pa-tab-list>
       </template>
 

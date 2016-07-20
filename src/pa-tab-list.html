@@ -20,6 +20,7 @@
     </style>
 
     <firebase-query
+      id="fb"
       path="[[path]]"
       data="{{list}}">
     </firebase-query>
@@ -29,7 +30,7 @@
       </pa-list-item>
     </template>
 
-    <paper-fab></paper-fab>
+    <paper-fab icon="app:add" on-tap="newListItem"></paper-fab>
 
   </template>
 
@@ -38,9 +39,31 @@
       is: 'pa-tab-list',
 
       properties: {
-        path: String
+        path: String,
+        type: String,
+        routePath: {
+          type: String,
+          notify: true
+        }
       },
 
+      newListItem() {
+        // push to main list item of the current type with list of fields to update
+        // take key of new item
+        var ref = this.$.fb.db.ref();
+        var key = ref.child('/l').push().key;
+        var item = {
+          t: this.type,
+          u: [{n: this.path + '/' + key}]
+        };
+        var updates = {};
+        updates['/l/' + key] = item;
+        // save key in the current resource
+        updates[this.path + '/' + key] = item;
+        // syncronize name and type with all places where update is needed
+        ref.update(updates);
+        this.routePath = key + '/';
+      },
       _log(a, b, c) {
         console.log('_log(a =',a,', b =',b,', c =',c,');');
       }
