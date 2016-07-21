@@ -118,10 +118,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-header>
 
           <!-- drawer menu -->
-          <iron-selector selected="[[routeData.page]]" attr-for-selected="data-page"
+          <iron-selector selected="[[route.path]]" attr-for-selected="href"
             on-iron-activate="_drawerSelected">
-            <a data-page="entities" href="/resource/basil-pupken/basil-entities">Partners</a>
-            <a data-page="offers" href="/resource/basil-pupken/basil-offers">Offers</a>
+            <a href="/resource/basil-pupken/partners">Partners</a>
+            <a href="/resource/basil-pupken/offers">Offers</a>
+            <a href="/resource/basil-pupken/contracts">Contracts</a>
+            <a href="/resource/admin/">System</a>
           </iron-selector>
         </app-header-layout>
       </app-drawer>

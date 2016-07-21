@@ -49,12 +49,12 @@
 
       newListItem() {
         // push to main list item of the current type with list of fields to update
-        // take key of new item
         var ref = this.$.fb.db.ref();
+        // take key of new item
         var key = ref.child('/l').push().key;
         var item = {
           t: this.type,
-          u: [{n: this.path + '/' + key}]
+          u: [{n: this.path}]
         };
         var updates = {};
         updates['/l/' + key] = item;

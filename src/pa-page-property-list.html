@@ -15,7 +15,7 @@
       }
     </style>
 
-    <firebase-query path="[[_path(resource.t, 'p')]]" data="{{props}}"
+    <firebase-query id="fb" path="[[_path(resource.t, 'p')]]" data="{{props}}"
       order-by-child="o">
     </firebase-query>
 
@@ -51,10 +51,8 @@
     Polymer({
       is: 'pa-page-property-list',
       properties: {
-        resource: {
-          type: Object,
-          notify: true
-        },
+        resourceKey: String,
+        resource: Object,
         isSynced: {
           type: Object
         }
@@ -93,7 +91,18 @@
         if (this.isSynced[key]
             && v.value !== undefined
             && v.value !== this.resource[key]) {
-          this.set('resource.' + key, v.value);
+          /* this.set('resource.' + key, v.value);*/
+          /* var ref = this.$.fb.db.ref();*/
+          /* var key = ref.child('/l').push().key;*/
+          /* var item = {*/
+          /* t: this.type,*/
+          /* u: [{n: this.path}]*/
+          /* };*/
+          var prop = '/' + this.resourceKey + '/' + key;
+          var updates = {};
+          updates['/l' + prop] = v.value;
+          updates[this.resource.u[0].n + prop] = v.value;
+          this.$.fb.db.ref().update(updates);
         }
       },
       _log: function(s, v) {
