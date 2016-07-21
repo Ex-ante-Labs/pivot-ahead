@@ -28,7 +28,7 @@
     </firebase-document>
 
     <firebase-query
-      path="[[_path(resource.t, 'tabs')]]"
+      id="fb"
       order-by-child="o"
       data="{{tabs}}">
     </firebase-query>
@@ -81,7 +81,30 @@
       observers: [
         '_tabChanged(selectedTab)',
         '_tabRouteChanged(subrouteData.tab)',
+        '_updatePathToTabList(resource.t)'
       ],
+      _updatePathToTabList(typeKey) {
+        /* console.log('_updatePathToPropertyList(typeKey =',typeKey,');');*/
+        /* path="[[_path(resource.t, 'p')]]" */
+        // for resources without type:
+        if (typeKey === undefined) {
+          typeKey = 'element';
+        }
+        var path = '/l/' + typeKey + '/p';
+        if (this.$.fb.path !== path) {
+          this.$.fb.path = undefined;
+          this.$.fb.path = path;
+        }
+      },
+      _updatePathToTabList(typeKey) {
+        /* console.log('_updatePathToTabList(typeKey =',typeKey,');');*/
+        /* path="[[_tabsPath(resource.t, 'tabs')]]"*/
+        var path = '/l/' + typeKey + '/tabs';
+        if (this.$.fb.path !== path) {
+          this.$.fb.path = undefined;
+          this.$.fb.path = path;
+        }
+      },
       _path(key, property) {
         /* console.log('_path(key =',key,', property =',property,');');*/
         return '/l/' + key + '/' + property

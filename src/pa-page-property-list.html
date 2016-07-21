@@ -15,9 +15,7 @@
       }
     </style>
 
-    <firebase-query id="fb" path="[[_path(resource.t, 'p')]]" data="{{props}}"
-      order-by-child="o">
-    </firebase-query>
+    <firebase-query id="fb" data="{{props}}" order-by-child="o"></firebase-query>
 
     <template is="dom-repeat" items="[[props]]" as="property">
 
@@ -61,11 +59,21 @@
         /* '_log("resource", resource)',*/
         /* '_log("props", props)',*/
         /* '_subLog("props", props.*)',*/
-        '_resetSync(props.*)'
+        '_resetSync(props.*)',
+        '_updatePathToPropertyList(resource.t)'
       ],
-      _path(key, property) {
-        /* console.log('_path(key =',key,', property =',property,');');*/
-        return '/l/' + key + '/' + property
+      _updatePathToPropertyList(typeKey) {
+        /* console.log('_updatePathToPropertyList(typeKey =',typeKey,');');*/
+        /* path="[[_path(resource.t, 'p')]]" */
+        // for resources without type:
+        if (typeKey === undefined) {
+          typeKey = 'element';
+        }
+        var path = '/l/' + typeKey + '/p';
+        if (this.$.fb.path !== path) {
+          this.$.fb.path = undefined;
+          this.$.fb.path = path;
+        }
       },
       _propertyValue: function(resource, key) {
         if (true) {
@@ -101,8 +109,10 @@
           var prop = '/' + this.resourceKey + '/' + key;
           var updates = {};
           updates['/l' + prop] = v.value;
-          updates[this.resource.u[0].n + prop] = v.value;
-          this.$.fb.db.ref().update(updates);
+          for (var i in this.resource.u) {
+            updates[this.resource.u[i].n + prop] = v.value;
+          }
+          return this.$.fb.db.ref().update(updates);
         }
       },
       _log: function(s, v) {

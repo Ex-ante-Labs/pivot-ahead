@@ -19,11 +19,7 @@
       }
     </style>
 
-    <firebase-query
-      id="fb"
-      path="[[path]]"
-      data="{{list}}">
-    </firebase-query>
+    <firebase-query id="fb" data="{{list}}"></firebase-query>
 
     <template is="dom-repeat" items="[[list]]" as="item">
       <pa-list-item key="[[item.$key]]" item="[[item]]">
@@ -39,7 +35,10 @@
       is: 'pa-tab-list',
 
       properties: {
-        path: String,
+        path: {
+          type: String,
+          observer: '_path'
+        },
         type: String,
         routePath: {
           type: String,
@@ -47,6 +46,12 @@
         }
       },
 
+      _path(path) {
+        /* this.$.fb.path = undefined;*/
+        if (this.$.fb.path !== path) {
+          this.$.fb.path = path;
+        }
+      },
       newListItem() {
         // push to main list item of the current type with list of fields to update
         var ref = this.$.fb.db.ref();
