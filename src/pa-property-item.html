@@ -17,11 +17,13 @@
       }
     </style>
 
-    <firebase-query path="[[_listPath(property.$key)]]" order-by-child="o" data="{{options}}">
+    <firebase-query path="[[property.dropdown]]" order-by-child="o"
+      data="{{options}}">
     </firebase-query>
 
     <paper-dropdown-menu label="[[property.n]]">
-      <paper-listbox class="dropdown-content" attr-for-selected="key" selected="{{selected}}">
+      <paper-listbox class="dropdown-content" attr-for-selected="key"
+        selected="{{selected}}">
         <template is="dom-repeat" items="[[options]]" as="option">
           <paper-item key="[[option.$key]]">[[option.n]]</paper-item>
         </template>

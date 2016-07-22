@@ -15,6 +15,11 @@
       }
     </style>
 
+    <firebase-document
+      path="[[_documentPath(resource.t)]]"
+      data="{{type}}">
+    </firebase-document>
+
     <firebase-query id="fb" data="{{props}}" order-by-child="o"></firebase-query>
 
     <template is="dom-repeat" items="[[props]]" as="property">
@@ -62,7 +67,10 @@
         '_resetSync(props.*)',
         '_updatePathToPropertyList(resource.t)'
       ],
-      _updatePathToPropertyList(typeKey) {
+      _documentPath: function(key) {
+        return '/l/' + key
+      },
+      _updatePathToPropertyList: function(typeKey) {
         /* console.log('_updatePathToPropertyList(typeKey =',typeKey,');');*/
         /* path="[[_path(resource.t, 'p')]]" */
         // for resources without type:
@@ -99,19 +107,15 @@
         if (this.isSynced[key]
             && v.value !== undefined
             && v.value !== this.resource[key]) {
-          /* this.set('resource.' + key, v.value);*/
-          /* var ref = this.$.fb.db.ref();*/
-          /* var key = ref.child('/l').push().key;*/
-          /* var item = {*/
-          /* t: this.type,*/
-          /* u: [{n: this.path}]*/
-          /* };*/
           var prop = '/' + this.resourceKey + '/' + key;
           var updates = {};
           updates['/l' + prop] = v.value;
+          for (var i in this.type.fanout) {
+            updates[this.type.fanout[i].n + prop] = v.value;
+          };
           for (var i in this.resource.u) {
             updates[this.resource.u[i].n + prop] = v.value;
-          }
+          };
           return this.$.fb.db.ref().update(updates);
         }
       },

@@ -120,9 +120,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <!-- drawer menu -->
           <iron-selector selected="[[route.path]]" attr-for-selected="href"
             on-iron-activate="_drawerSelected">
-            <a href="/resource/basil-pupken/partners">Partners</a>
-            <a href="/resource/basil-pupken/offers">Offers</a>
-            <a href="/resource/basil-pupken/contracts">Contracts</a>
+            <a href="/resource/basil-pupken/partners">My Partners</a>
+            <a href="/resource/basil-pupken/offers">My Offers</a>
+            <a href="/resource/basil-pupken/contracts">My Contracts</a>
+            <a href="/resource/all/offers">All Offers</a>
             <a href="/resource/admin/">Site Builder</a>
           </iron-selector>
         </app-header-layout>
@@ -165,7 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _routePageChanged: function(page) {
-        if (!page) { this.set('route.path', '/resource/basil-pupken/') }
+        if (!page) { this.set('route.path', '/resource/all/offers') }
         this.page = page;
       }
 

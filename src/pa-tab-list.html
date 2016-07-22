@@ -2,6 +2,7 @@
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/google-chart/google-chart.html">
 <link rel="import" href="pa-card.html">
 <link rel="import" href="pa-list-item.html">
 
@@ -12,17 +13,28 @@
       :host {
         display: block;
       }
-      
+
       paper-fab {
         position: fixed;
         right: 24px;
         bottom: 32px;
+      }
+      .item {
+        width: 100%;
       }
     </style>
 
     <firebase-query id="fb" data="{{list}}"></firebase-query>
 
     <template is="dom-repeat" items="[[list]]" as="item">
+      <template is="dom-if" if="[[_is(item.t, 'chart')]]">
+        <google-chart class="item"
+          type='[[item.type]]'
+          options='{"title": "Distribution of days in 2001Q1"}'
+          cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]'
+          rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
+        </google-chart>
+      </template>
       <template is="dom-if" if="[[_is(item.t, 'attachment')]]">
         <pa-card key="[[item.$key]]" heading="[[item.n]]" image="[[item.href]]">
         </pa-card>
@@ -57,7 +69,7 @@
         return a === b
       },
       _isOther: function(a) {
-        return a != 'attachment'
+        return a !== 'attachment' && a !== 'chart'
       },
       _path(path) {
         /* this.$.fb.path = undefined;*/

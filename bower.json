@@ -6,6 +6,7 @@
     "iron-elements": "PolymerElements/iron-elements#^1.0.0",
     "paper-elements": "PolymerElements/paper-elements#^1.0.0",
     "polymer": "Polymer/polymer#^1.0.0",
+    "google-chart": "GoogleWebComponents/google-chart#^1.1.0",
     "polymerfire": "firebase/polymerfire#^0.9.4"
   },
   "private": true

@@ -83,7 +83,7 @@
         '_tabRouteChanged(subrouteData.tab)',
         '_updatePathToTabList(resource.t)'
       ],
-      _updatePathToTabList(typeKey) {
+      _updatePathToTabList: function(typeKey) {
         /* console.log('_updatePathToPropertyList(typeKey =',typeKey,');');*/
         /* path="[[_path(resource.t, 'p')]]" */
         // for resources without type:
@@ -96,7 +96,7 @@
           this.$.fb.path = path;
         }
       },
-      _updatePathToTabList(typeKey) {
+      _updatePathToTabList: function(typeKey) {
         /* console.log('_updatePathToTabList(typeKey =',typeKey,');');*/
         /* path="[[_tabsPath(resource.t, 'tabs')]]"*/
         var path = '/l/' + typeKey + '/tabs';
@@ -105,7 +105,7 @@
           this.$.fb.path = path;
         }
       },
-      _path(key, property) {
+      _path: function(key, property) {
         /* console.log('_path(key =',key,', property =',property,');');*/
         return '/l/' + key + '/' + property
       },
