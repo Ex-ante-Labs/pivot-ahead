@@ -1,8 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
-<link rel="import" href="pa-list-item.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="pa-card.html">
+<link rel="import" href="pa-list-item.html">
 
 <dom-module id="pa-tab-list">
   <template>
@@ -11,19 +12,25 @@
       :host {
         display: block;
       }
-
+      
       paper-fab {
-          position: fixed;
-          right: 24px;
-          bottom: 32px;
+        position: fixed;
+        right: 24px;
+        bottom: 32px;
       }
     </style>
 
     <firebase-query id="fb" data="{{list}}"></firebase-query>
 
     <template is="dom-repeat" items="[[list]]" as="item">
-      <pa-list-item key="[[item.$key]]" item="[[item]]">
-      </pa-list-item>
+      <template is="dom-if" if="[[_is(item.t, 'attachment')]]">
+        <pa-card key="[[item.$key]]" heading="[[item.n]]" image="[[item.href]]">
+        </pa-card>
+      </template>
+      <template is="dom-if" if="[[_isOther(item.t)]]">
+        <pa-list-item key="[[item.$key]]" item="[[item]]">
+        </pa-list-item>
+      </template>
     </template>
 
     <paper-fab icon="app:add" on-tap="newListItem"></paper-fab>
@@ -46,6 +53,12 @@
         }
       },
 
+      _is: function(a, b) {
+        return a === b
+      },
+      _isOther: function(a) {
+        return a != 'attachment'
+      },
       _path(path) {
         /* this.$.fb.path = undefined;*/
         if (this.$.fb.path !== path) {

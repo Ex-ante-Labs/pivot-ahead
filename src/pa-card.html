@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+
+<dom-module id="pa-card">
+  <template>
+
+    <style include="shared-styles">
+      :host {
+        display: block;
+        margin: 16px;
+        --paper-card-header-image: {
+        };
+        --paper-card-header-image-text: {
+          color: white;
+          text-shadow:
+          -1px -1px 0 #000,
+          1px -1px 0 #000,
+          -1px 1px 0 #000,
+          1px 1px 0 #000;;
+        };
+        --paper-card-header-image: {
+          background-position: center;
+        };
+      }
+      paper-card {
+        width: 100%;
+      }
+    </style>
+
+    <a href="/resource/[[key]]/">
+      <paper-card heading="[[heading]]" image="[[image]]">
+      </paper-card>
+    </a>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pa-card',
+
+      properties: {
+        key: String,
+        heading: String,
+        image: String
+      }
+
+    });
+  </script>
+</dom-module>
