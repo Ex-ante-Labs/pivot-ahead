@@ -8,4 +8,8 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-console.info('Service worker disabled for development, will be generated at build time.');
+'use strict';
+
+// Load custom tasks from the `gulp-tasks` directory
+require('./gulp-tasks/build.js');
+require('./gulp-tasks/lint.js');
