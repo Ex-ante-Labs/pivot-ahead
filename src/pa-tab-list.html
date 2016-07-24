@@ -54,6 +54,7 @@
       is: 'pa-tab-list',
 
       properties: {
+        list: Object,
         path: {
           type: String,
           observer: '_path'
@@ -71,14 +72,15 @@
       _isOther: function(a) {
         return a !== 'attachment' && a !== 'chart'
       },
-      _path(path) {
+      _path: function(path) {
         /* this.$.fb.path = undefined;*/
         if (this.$.fb.path !== path) {
           this.$.fb.path = path;
         }
       },
-      newListItem() {
-        // push to main list item of the current type with list of fields to update
+      newListItem: function() {
+        // push to main list item of the current type with list of fields to
+        // update
         var ref = this.$.fb.db.ref();
         // take key of new item
         var key = ref.child('/l').push().key;
@@ -94,7 +96,7 @@
         ref.update(updates);
         this.routePath = key + '/';
       },
-      _log(a, b, c) {
+      _log: function(a, b, c) {
         console.log('_log(a =',a,', b =',b,', c =',c,');');
       }
 
